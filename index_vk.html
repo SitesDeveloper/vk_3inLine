@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | vk_3inLne</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+	<script src="https://vk.com/js/api/xd_connection.js?2"  type="text/javascript"></script>
+    <script>
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/WebGL.json", {onProgress: UnityProgress});
+	  
+		VK.init(function() {
+			alert( 'API initialization succeeded' );
+			 
+			VK.addCallback('OnWindowBlur', function(settings) { UnityHide(); } );
+			VK.addCallback('OnWindowFocus', function(settings) { UnityShow(); } );
+		  }, 
+		  function() {
+			 // API initialization failed
+			 alert('API VK initialization failed');
+		});	  
+		
+		function GetUnity() {
+			return unityInstance;
+		}
+		
+		function UnityShow() {
+			GetUnity().style.visibility = 'visible';
+		}
+		function UnityHide() {
+			GetUnity().style.visibility = 'hidden';
+		}
+		
+		function SendToUnity(func, what) {
+			GetUnity().SendMessage("SocialManager", func, what);
+		}
+		
+		function GetParams() {
+			alert(document.location.href+'');
+			SendToUnity("RecvParams", document.location.href+'');
+		}
+		
+		function GetProfile(uid) {
+			VK.api('users.get', (uids: uid,fields: 'first_name,photo,last_name},
+				function(data){
+					var Fname = "";
+					var Lname = "";
+					var Photo = "";
+					if (data.response) {
+						Fname = data.response[0]['first_name'];
+						Lname = data.response[0]['last_name'];
+						Photo = data.response[0]['photo'];
+						var Profile = [uid,Fname,Lname,Photo];
+						SendToUnity("OnGetPlayer","" + Profile);
+					}
+				}
+			);
+		}
+		
+		function PostToWall(text) {
+			//photo_num = "photo-666232_2352342";
+			VK.api('wall.post', 
+				{
+					message:text
+					//,attachments: photo_num +",http://vk.com/appID"
+				}, function(data) {
+				}
+			);
+		}
+		
+		function ShowInvite() {
+			VK.callMethod("showInviteBox");
+		}
+		
+		
+	  
+    </script>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 960px; height: 600px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+        <div class="title">vk_3inLne</div>
+      </div>
+    </div>
+  </body>
+</html>
