@@ -10,19 +10,22 @@
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
     <script>
-      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/WebGL.json", {onProgress: UnityProgress});
+		var unityInstance = UnityLoader.instantiate("unityContainer", "Build/WebGL.json", {onProgress: UnityProgress});
 	   
+		function VK_start() {
+		{
+			VK.init(function() {
+				alert( 'API initialization succeeded' );
+				//VK.addCallback('OnWindowBlur', function(settings) { UnityHide(); } );
+				//VK.addCallback('OnWindowFocus', function(settings) { UnityShow(); } );
+			  }, 
+			  function() {
+				 // API initialization failed
+				 alert('API VK initialization failed');
+			});	  
+		}	   
+
 	  /*
-		VK.init(function() {
-			alert( 'API initialization succeeded' );
-			 
-			VK.addCallback('OnWindowBlur', function(settings) { UnityHide(); } );
-			VK.addCallback('OnWindowFocus', function(settings) { UnityShow(); } );
-		  }, 
-		  function() {
-			 // API initialization failed
-			 alert('API VK initialization failed');
-		});	  
 		
 		function GetUnity() {
 			return unityInstance;
