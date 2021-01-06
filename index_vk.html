@@ -33,12 +33,13 @@
 
 
 		function JS_VK_get_user(vk_user_id) {
-			VK.api('users.get', {uids: vk_user_id,fields: 'first_name,photo_100,last_name'},
+			VK.api('users.get', {user_ids: vk_user_id,fields: 'first_name,photo_100,last_name'},
 				function(data){
 					var Fname = "";
 					var Lname = "";
 					var Photo = "";
 					if (data.response) {
+						console.log('users.get ok', data);
 						Fname = data.response[0]['first_name'];
 						Lname = data.response[0]['last_name'];
 						Photo = data.response[0]['photo_100'];
