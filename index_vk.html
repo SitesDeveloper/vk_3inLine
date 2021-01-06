@@ -12,20 +12,61 @@
     <script>
 		var unityInstance = UnityLoader.instantiate("unityContainer", "Build/WebGL.json", {onProgress: UnityProgress});
 	   
-		function VK_start() 
+		function JS_VK_start() 
 		{
 			VK.init(function() {
 				alert( 'API initialization succeeded' );
 				//VK.addCallback('OnWindowBlur', function(settings) { UnityHide(); } );
 				//VK.addCallback('OnWindowFocus', function(settings) { UnityShow(); } );
+				JS_SendToUnity("OnVkInit","NORMAL");
 			  }, 
 			  function() {
 				 // API initialization failed
 				 alert('API VK initialization failed');
+				 JS_SendToUnity("OnVkInit","FAIL");
 			});	  
 		}	   
 
-	  /*
+		function JS_SendToUnity(func, what) {
+			unityInstance.SendMessage("SocialManager", func, what);
+		}
+
+
+/*
+		function JS_VK_get_user(uid) {
+			VK.api('users.get', (uids: uid,fields: 'first_name,photo,last_name},
+				function(data){
+					var Fname = "";
+					var Lname = "";
+					var Photo = "";
+					if (data.response) {
+						Fname = data.response[0]['first_name'];
+						Lname = data.response[0]['last_name'];
+						Photo = data.response[0]['photo'];
+						var Profile = [uid,Fname,Lname,Photo];
+						SendToUnity("OnGetPlayer","" + Profile);
+					}
+				}
+			);
+		}
+
+		function PostToWall(text) {
+			//photo_num = "photo-666232_2352342";
+			VK.api('wall.post', 
+				{
+					message:text
+					//,attachments: photo_num +",http://vk.com/appID"
+				}, function(data) {
+				}
+			);
+		}
+		
+		function ShowInvite() {
+			VK.callMethod("showInviteBox");
+		}
+
+
+
 		
 		function GetUnity() {
 			return unityInstance;
