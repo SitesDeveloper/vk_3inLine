@@ -33,7 +33,7 @@
 
 
 		function JS_VK_get_user(vk_user_id) {
-			conosole.log('vk_user_id=' + vk_user_id);
+			console.log('vk_user_id=' + vk_user_id);
 			VK.api('users.get', {user_ids: vk_user_id,fields: 'first_name,photo_100,last_name'},
 				function(data){
 					var Fname = "";
