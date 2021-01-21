@@ -60,6 +60,17 @@
                 VK.callMethod(method);
             }
 
+            function JS_VK_postToWall(text) {
+                var photo_code = "photo308351419_457239196";
+                VK.api('wall.post', 
+                    {
+                        message:text,
+                        attachments: photo_code +",https://vk.com/app7717324"
+                    }, 
+                    function(data) {
+                    }
+                );
+            }
 
 
             /*
